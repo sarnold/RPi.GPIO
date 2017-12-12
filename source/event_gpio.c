@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013-2016 Ben Croston
+Copyright (c) 2013-2017 Ben Croston
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -218,7 +218,6 @@ struct gpios *new_gpio(unsigned int gpio)
 void delete_gpio(unsigned int gpio)
 {
     struct gpios *g = gpio_list;
-    struct gpios *temp;
     struct gpios *prev = NULL;
 
     while (g != NULL) {
@@ -227,9 +226,7 @@ void delete_gpio(unsigned int gpio)
                 gpio_list = g->next;
             else
                 prev->next = g->next;
-            temp = g;
-            g = g->next;
-            free(temp);
+            free(g);
             return;
         } else {
             prev = g;
@@ -411,22 +408,25 @@ void event_cleanup(unsigned int gpio)
 // gpio of -666 means clean every channel used
 {
     struct gpios *g = gpio_list;
-    struct gpios *temp = NULL;
+    struct gpios *next_gpio = NULL;
 
     while (g != NULL) {
+        next_gpio = g->next;
         if ((gpio == -666) || (g->gpio == gpio))
-            temp = g->next;
             remove_edge_detect(g->gpio);
-            g = temp;
+        g = next_gpio;
     }
-    if (gpio_list == NULL)
-        if (epfd_blocking != -1)
+    if (gpio_list == NULL) {
+        if (epfd_blocking != -1) {
             close(epfd_blocking);
             epfd_blocking = -1;
-        if (epfd_thread != -1)
+        }
+        if (epfd_thread != -1) {
             close(epfd_thread);
             epfd_thread = -1;
+        }
         thread_running = 0;
+    }
 }
 
 void event_cleanup_all(void)

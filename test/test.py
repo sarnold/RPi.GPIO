@@ -1,6 +1,6 @@
 #!/usr/bin/env python2
 """
-Copyright (c) 2013-2016 Ben Croston
+Copyright (c) 2013-2017 Ben Croston
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -45,7 +45,9 @@ GND_PIN = 6
 LED_PIN = 12
 LED_PIN_BCM = 18
 SWITCH_PIN = 18
+SWITCH_PIN_BCM = 24
 LOOP_IN = 16
+LOOP_IN_BCM = 23
 LOOP_OUT = 22
 
 non_interactive = False
@@ -711,14 +713,29 @@ class TestCleanup(unittest.TestCase):
     def test_cleanone(self):
         GPIO.setup(LOOP_OUT, GPIO.OUT)
         GPIO.setup(LED_PIN, GPIO.OUT)
+        GPIO.setup(SWITCH_PIN, GPIO.IN)
+        GPIO.setup(LOOP_IN, GPIO.IN)
+        GPIO.add_event_detect(SWITCH_PIN, GPIO.FALLING)
+        GPIO.add_event_detect(LOOP_IN, GPIO.RISING)
+        time.sleep(0.2)  # wait for udev to set permissions
         self.assertEqual(GPIO.gpio_function(LOOP_OUT), GPIO.OUT)
         self.assertEqual(GPIO.gpio_function(LED_PIN), GPIO.OUT)
+        self.assertEqual(GPIO.gpio_function(SWITCH_PIN), GPIO.IN)
+        self.assertEqual(GPIO.gpio_function(LOOP_IN), GPIO.IN)
+        self.assertTrue(os.path.exists('/sys/class/gpio/gpio%s'%SWITCH_PIN_BCM))
+        self.assertTrue(os.path.exists('/sys/class/gpio/gpio%s'%LOOP_IN_BCM))
+        GPIO.cleanup(SWITCH_PIN)
+        time.sleep(0.2)  # wait for udev to set permissions
+        self.assertFalse(os.path.exists('/sys/class/gpio/gpio%s'%SWITCH_PIN_BCM))
+        self.assertTrue(os.path.exists('/sys/class/gpio/gpio%s'%LOOP_IN_BCM))
+        GPIO.cleanup(LOOP_IN)
+        time.sleep(0.2)  # wait for udev to set permissions
+        self.assertFalse(os.path.exists('/sys/class/gpio/gpio%s'%SWITCH_PIN_BCM))
+        self.assertFalse(os.path.exists('/sys/class/gpio/gpio%s'%LOOP_IN_BCM))
         GPIO.cleanup(LOOP_OUT)
-        GPIO.setmode(GPIO.BOARD)
         self.assertEqual(GPIO.gpio_function(LOOP_OUT), GPIO.IN)
         self.assertEqual(GPIO.gpio_function(LED_PIN), GPIO.OUT)
         GPIO.cleanup(LED_PIN)
-        GPIO.setmode(GPIO.BOARD)
         self.assertEqual(GPIO.gpio_function(LOOP_OUT), GPIO.IN)
         self.assertEqual(GPIO.gpio_function(LED_PIN), GPIO.IN)
 
