@@ -1,6 +1,6 @@
 #!/usr/bin/env python2
 """
-Copyright (c) 2013-2017 Ben Croston
+Copyright (c) 2013-2018 Ben Croston
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -247,6 +247,15 @@ class TestInputOutput(unittest.TestCase):
             GPIO.output( [LOOP_OUT, LOOP_IN], (0,0) )
 
     def tearDown(self):
+        GPIO.cleanup()
+
+class TestSoftPWMExists(unittest.TestCase):
+    def runTest(self):
+        GPIO.setmode(GPIO.BOARD)
+        GPIO.setup(LED_PIN, GPIO.OUT)
+        pwm = GPIO.PWM(LED_PIN, 50)
+        with self.assertRaises(RuntimeError):
+            pwm2 = GPIO.PWM(LED_PIN, 49)
         GPIO.cleanup()
 
 class TestSoftPWM(unittest.TestCase):
