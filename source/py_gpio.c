@@ -578,7 +578,7 @@ static unsigned int chan_from_gpio(unsigned int gpio)
    else
       chans = 40;
    for (chan=1; chan<=chans; chan++)
-      if (*(*pin_to_gpio+chan) == gpio)
+      if (*(*pin_to_gpio+chan) == (int)gpio)
          return chan;
    return -1;
 }

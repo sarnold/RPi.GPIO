@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013-2017 Ben Croston
+Copyright (c) 2013-2018 Ben Croston
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -64,6 +64,15 @@ int epfd_thread = -1;
 int epfd_blocking = -1;
 
 /************* /sys/class/gpio functions ************/
+#define x_write(fd, buf, len) do {                                  \
+    size_t x_write_len = (len);                                     \
+                                                                    \
+    if ((size_t)write((fd), (buf), x_write_len) != x_write_len) {   \
+        close(fd);                                                  \
+        return (-1);                                                \
+    }                                                               \
+} while (/* CONSTCOND */ 0)
+
 int gpio_export(unsigned int gpio)
 {
     int fd, len;
@@ -73,7 +82,7 @@ int gpio_export(unsigned int gpio)
        return -1;
 
     len = snprintf(str_gpio, sizeof(str_gpio), "%d", gpio);
-    write(fd, str_gpio, len);
+    x_write(fd, str_gpio, len);
     close(fd);
 
     return 0;
@@ -88,7 +97,7 @@ int gpio_unexport(unsigned int gpio)
         return -1;
 
     len = snprintf(str_gpio, sizeof(str_gpio), "%d", gpio);
-    write(fd, str_gpio, len);
+    x_write(fd, str_gpio, len);
     close(fd);
 
     return 0;
@@ -115,9 +124,9 @@ int gpio_set_direction(unsigned int gpio, unsigned int in_flag)
         return -1;
 
     if (in_flag)
-        write(fd, "in", 3);
+        x_write(fd, "in", 3);
     else
-        write(fd, "out", 4);
+        x_write(fd, "out", 4);
 
     close(fd);
     return 0;
@@ -133,7 +142,7 @@ int gpio_set_edge(unsigned int gpio, unsigned int edge)
     if ((fd = open(filename, O_WRONLY)) < 0)
         return -1;
 
-    write(fd, stredge[edge], strlen(stredge[edge]) + 1);
+    x_write(fd, stredge[edge], strlen(stredge[edge]) + 1);
     close(fd);
     return 0;
 }
@@ -342,7 +351,7 @@ void *poll_thread(void *threadarg)
             } else {
                 gettimeofday(&tv_timenow, NULL);
                 timenow = tv_timenow.tv_sec*1E6 + tv_timenow.tv_usec;
-                if (g->bouncetime == -666 || timenow - g->lastcall > g->bouncetime*1000 || g->lastcall == 0 || g->lastcall > timenow) {
+                if (g->bouncetime == -666 || timenow - g->lastcall > (unsigned int)g->bouncetime*1000 || g->lastcall == 0 || g->lastcall > timenow) {
                     g->lastcall = timenow;
                     event_occurred[g->gpio] = 1;
                     run_callbacks(g->gpio);
@@ -404,7 +413,7 @@ int event_detected(unsigned int gpio)
     }
 }
 
-void event_cleanup(unsigned int gpio)
+void event_cleanup(int gpio)
 // gpio of -666 means clean every channel used
 {
     struct gpios *g = gpio_list;
@@ -412,7 +421,7 @@ void event_cleanup(unsigned int gpio)
 
     while (g != NULL) {
         next_gpio = g->next;
-        if ((gpio == -666) || (g->gpio == gpio))
+        if ((gpio == -666) || ((int)g->gpio == gpio))
             remove_edge_detect(g->gpio);
         g = next_gpio;
     }
@@ -454,7 +463,7 @@ int add_edge_detect(unsigned int gpio, unsigned int edge, int bouncetime)
         gpio_set_edge(gpio, edge);
         g->edge = edge;
         g->bouncetime = bouncetime;
-    } else if (i == edge) {  // get existing event
+    } else if (i == (int)edge) {  // get existing event
         g = get_gpio(gpio);
         if ((bouncetime != -666 && g->bouncetime != bouncetime) ||  // different event bouncetime used
             (g->thread_added))                // event already added
@@ -507,7 +516,7 @@ int blocking_wait_for_edge(unsigned int gpio, unsigned int edge, int bouncetime,
 
     // add gpio if it has not been added already
     ed = gpio_event_added(gpio);
-    if (ed == edge) {   // get existing record
+    if (ed == (int)edge) {   // get existing record
         g = get_gpio(gpio);
         if (g->bouncetime != -666 && g->bouncetime != bouncetime) {
             return -1;
@@ -557,7 +566,7 @@ int blocking_wait_for_edge(unsigned int gpio, unsigned int edge, int bouncetime,
         } else {
             gettimeofday(&tv_timenow, NULL);
             timenow = tv_timenow.tv_sec*1E6 + tv_timenow.tv_usec;
-            if (g->bouncetime == -666 || timenow - g->lastcall > g->bouncetime*1000 || g->lastcall == 0 || g->lastcall > timenow) {
+            if (g->bouncetime == -666 || timenow - g->lastcall > (unsigned int)g->bouncetime*1000 || g->lastcall == 0 || g->lastcall > timenow) {
                 g->lastcall = timenow;
                 finished = 1;
             }

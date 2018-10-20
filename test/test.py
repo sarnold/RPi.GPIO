@@ -1,4 +1,7 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
+from __future__ import print_function
+if hasattr(__builtins__, 'raw_input'):
+    input = raw_input
 """
 Copyright (c) 2013-2018 Ben Croston
 
@@ -265,13 +268,13 @@ class TestSoftPWM(unittest.TestCase):
         GPIO.setup(LED_PIN, GPIO.OUT)
         pwm = GPIO.PWM(LED_PIN, 50)
         pwm.start(100)
-        print "\nPWM tests"
-        response = raw_input('Is the LED on (y/n) ? ').upper()
+        print("\nPWM tests")
+        response = input('Is the LED on (y/n) ? ').upper()
         self.assertEqual(response,'Y')
         pwm.start(0)
-        response = raw_input('Is the LED off (y/n) ? ').upper()
+        response = input('Is the LED off (y/n) ? ').upper()
         self.assertEqual(response,'Y')
-        print "LED Brighten/fade test..."
+        print("LED Brighten/fade test...")
         for i in range(0,3):
             for x in range(0,101,5):
                 pwm.ChangeDutyCycle(x)
@@ -280,7 +283,7 @@ class TestSoftPWM(unittest.TestCase):
                 pwm.ChangeDutyCycle(x)
                 time.sleep(0.1)
         pwm.stop()
-        response = raw_input('Did it work (y/n) ? ').upper()
+        response = input('Did it work (y/n) ? ').upper()
         self.assertEqual(response,'Y')
         GPIO.cleanup()
 
@@ -337,15 +340,15 @@ class TestSetWarnings(unittest.TestCase):
 
 class TestVersions(unittest.TestCase):
     def test_rpi_info(self):
-        print 'RPi Board Information'
-        print '---------------------'
-        for key,val in GPIO.RPI_INFO.items():
-            print '%s => %s'%(key,val)
-        response = raw_input('\nIs this board info correct (y/n) ? ').upper()
+        print('RPi Board Information')
+        print('---------------------')
+        for key,val in list(GPIO.RPI_INFO.items()):
+            print('%s => %s'%(key,val))
+        response = input('\nIs this board info correct (y/n) ? ').upper()
         self.assertEqual(response, 'Y')
 
     def test_gpio_version(self):
-        response = raw_input('\nRPi.GPIO version %s - is this correct (y/n) ? '%GPIO.VERSION).upper()
+        response = input('\nRPi.GPIO version %s - is this correct (y/n) ? '%GPIO.VERSION).upper()
         self.assertEqual(response, 'Y')
 
 class TestGPIOFunction(unittest.TestCase):
@@ -373,7 +376,7 @@ class TestSwitchBounce(unittest.TestCase):
 
     def cb(self,chan):
         self.switchcount += 1
-        print 'Button press',self.switchcount
+        print('Button press',self.switchcount)
 
     def setUp(self):
         GPIO.setmode(GPIO.BOARD)
@@ -382,7 +385,7 @@ class TestSwitchBounce(unittest.TestCase):
     @unittest.skipIf(non_interactive, 'Non interactive mode')
     def test_switchbounce(self):
         self.switchcount = 0
-        print "\nSwitch bounce test.  Press switch at least 10 times and count..."
+        print("\nSwitch bounce test.  Press switch at least 10 times and count...")
         GPIO.add_event_detect(SWITCH_PIN, GPIO.FALLING, callback=self.cb, bouncetime=200)
         while self.switchcount < 10:
             time.sleep(1)
@@ -391,12 +394,12 @@ class TestSwitchBounce(unittest.TestCase):
     @unittest.skipIf(non_interactive, 'Non interactive mode')
     def test_event_detected(self):
         self.switchcount = 0
-        print "\nGPIO.event_detected() switch bounce test.  Press switch at least 10 times and count..."
+        print("\nGPIO.event_detected() switch bounce test.  Press switch at least 10 times and count...")
         GPIO.add_event_detect(SWITCH_PIN, GPIO.FALLING, bouncetime=200)
         while self.switchcount < 10:
             if GPIO.event_detected(SWITCH_PIN):
                 self.switchcount += 1
-                print 'Button press',self.switchcount
+                print('Button press',self.switchcount)
         GPIO.remove_event_detect(SWITCH_PIN)
 
     def tearDown(self):

@@ -5,6 +5,8 @@ Dev
 ---
 - Event cleanup bug (issue 145)
 - Raise exception for duplicate PWM objects (issue 54 - Thijs Schreijer <thijs@thijsschreijer.nl>)
+- Fix build warnings (Issue 146 - Dominik George) 
+- test.py runs unchanged for both python 2+3
 
 0.6.3
 -----
