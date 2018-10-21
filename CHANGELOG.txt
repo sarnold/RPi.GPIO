@@ -7,7 +7,8 @@ Dev
 - Raise exception for duplicate PWM objects (issue 54 - Thijs Schreijer <thijs@thijsschreijer.nl>)
 - Fix build warnings (Issue 146 - Dominik George) 
 - test.py runs unchanged for both python 2+3
-- Soft PWM fix (Issues 94, 111, 154)
+- Soft PWM stops running fix (Issues 94, 111, 154)
+- Soft PWM segfault fix (Luke Allen pull request)
 
 0.6.3
 -----

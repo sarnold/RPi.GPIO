@@ -50,13 +50,14 @@ void remove_pwm(unsigned int gpio)
     {
         if (p->gpio == gpio)
         {
-            if (prev == NULL)
+            if (prev == NULL) {
                 pwm_list = p->next;
-            else
+            } else {
                 prev->next = p->next;
+            }
             temp = p;
             p = p->next;
-            free(temp);
+            temp->running = 0; // signal the thread to stop. The thread will free() the pwm struct when it's done with it.
         } else {
             prev = p;
             p = p->next;
@@ -109,7 +110,7 @@ void *pwm_thread(void *threadarg)
 
     // clean up
     output_gpio(p->gpio, 0);
-    remove_pwm(p->gpio);
+    free(p);
     pthread_exit(NULL);
 }
 
@@ -209,10 +210,7 @@ void pwm_start(unsigned int gpio)
 
 void pwm_stop(unsigned int gpio)
 {
-    struct pwm *p;
-
-    if ((p = find_pwm(gpio)) != NULL)
-        p->running = 0;
+    remove_pwm(gpio);
 }
 
 // returns 1 if there is a PWM for this gpio, 0 otherwise
