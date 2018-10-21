@@ -204,6 +204,7 @@ void pwm_start(unsigned int gpio)
         p->running = 0;
         return;
     }
+    pthread_detach(threads);
 }
 
 void pwm_stop(unsigned int gpio)
