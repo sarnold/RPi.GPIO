@@ -1,8 +1,8 @@
 Change Log
 ==========
 
-Dev
----
+0.6.4
+-----
 - Event cleanup bug (issue 145)
 - Raise exception for duplicate PWM objects (issue 54 - Thijs Schreijer <thijs@thijsschreijer.nl>)
 - Fix build warnings (Issue 146 - Dominik George) 
