@@ -77,9 +77,18 @@ int gpio_export(unsigned int gpio)
 {
     int fd, len;
     char str_gpio[3];
+    char filename[33];
 
-    if ((fd = open("/sys/class/gpio/export", O_WRONLY)) < 0)
+    snprintf(filename, sizeof(filename), "/sys/class/gpio/gpio%d", gpio);
+
+    /* return if gpio already exported */
+    if (access(filename, F_OK) != -1) {
+        return 0;
+    }
+
+    if ((fd = open("/sys/class/gpio/export", O_WRONLY)) < 0) {
        return -1;
+    }
 
     len = snprintf(str_gpio, sizeof(str_gpio), "%d", gpio);
     x_write(fd, str_gpio, len);
@@ -457,8 +466,9 @@ int add_edge_detect(unsigned int gpio, unsigned int edge, int bouncetime)
 
     i = gpio_event_added(gpio);
     if (i == 0) {    // event not already added
-        if ((g = new_gpio(gpio)) == NULL)
+        if ((g = new_gpio(gpio)) == NULL) {
             return 2;
+        }
 
         gpio_set_edge(gpio, edge);
         g->edge = edge;
