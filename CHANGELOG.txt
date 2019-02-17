@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+0.6.6a1
+-------
+- Fix spelling mistake in docstrings
+- Tested and working on Raspbian Buster + Python 3.8.0a1
+
 0.6.5
 -----
 - Fix exception on re-export of /sys/class/gpio/gpioNN
