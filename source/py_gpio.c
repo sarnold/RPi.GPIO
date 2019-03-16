@@ -1020,7 +1020,7 @@ PyMODINIT_FUNC init_GPIO(void)
                               "MANUFACTURER",rpiinfo.manufacturer,
                               "PROCESSOR",rpiinfo.processor,
                               "RAM",rpiinfo.ram);
-   PyModule_AddObject(module, "RPI_INFO", board_info); 
+   PyModule_AddObject(module, "RPI_INFO", board_info);
 
    if (rpiinfo.p1_revision == 1) {
       pin_to_gpio = &pin_to_gpio_rev1;

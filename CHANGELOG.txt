@@ -1,10 +1,11 @@
 Change Log
 ==========
 
-0.6.6a1
+0.6.6a2
 -------
 - Fix spelling mistake in docstrings
 - Tested and working on Raspbian Buster + Python 3.8.0a1
+- Fix board detection for aarch64 (Issues 161 / 165)
 
 0.6.5
 -----

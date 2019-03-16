@@ -1,6 +1,6 @@
-rpi.gpio (0.6.6a1~stretch-1) unstable; urgency=low
+rpi.gpio (0.6.6a2~stretch-1) unstable; urgency=low
 
-  * To match Python RPi.GPIO package 0.6.6a1
+  * To match Python RPi.GPIO package 0.6.6a2
 
- -- Ben Croston <ben@croston.org>  Fri, 17 Feb 2019 21:48:36 +0000
+ -- Ben Croston <ben@croston.org>  Sat, 16 Mar 2019 14:36:20 +0000
 
