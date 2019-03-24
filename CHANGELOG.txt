@@ -1,11 +1,12 @@
 Change Log
 ==========
 
-0.6.6a2
+0.6.6a3
 -------
 - Fix spelling mistake in docstrings
 - Tested and working on Raspbian Buster + Python 3.8.0a1
 - Fix board detection for aarch64 (Issues 161 / 165)
+- Fix checking mmap return value in c_gpio.c (issue 166)
 
 0.6.5
 -----
