@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+0.7.0a1
+-------
+- Updated RPI_INFO to include RPi 4B
+
 0.6.6a3
 -------
 - Fix spelling mistake in docstrings

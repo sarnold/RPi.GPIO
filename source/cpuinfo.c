@@ -97,6 +97,7 @@ int get_rpi_info(rpi_info *info)
          case '1':
             switch (revision[len-2]) {
                case '0': info->type = "Compute Module 3+"; info->p1_revision = 0; break;
+               case '1': info->type = "Pi 4 Model B"; info->p1_revision = 3; break;
                default : info->type = "Unknown"; info->p1_revision = 3; break;
             } break;
          default: info->type = "Unknown"; info->p1_revision = 3; break;
@@ -106,6 +107,7 @@ int get_rpi_info(rpi_info *info)
          case '0': info->processor = "BCM2835"; break;
          case '1': info->processor = "BCM2836"; break;
          case '2': info->processor = "BCM2837"; break;
+         case '3': info->processor = "BCM2711"; break;
          default : info->processor = "Unknown"; break;
       }
       switch (revision[len-5]) {
@@ -120,7 +122,9 @@ int get_rpi_info(rpi_info *info)
       switch (strtol((char[]){revision[len-6],0}, NULL, 16) & 7) {
          case 0: info->ram = "256M"; break;
          case 1: info->ram = "512M"; break;
-         case 2: info->ram = "1024M"; break;
+         case 2: info->ram = "1G"; break;
+         case 3: info->ram = "2G"; break;
+         case 4: info->ram = "4G"; break;
          default: info->ram = "Unknown"; break;
       }
    } else {
