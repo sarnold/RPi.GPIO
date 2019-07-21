@@ -3,7 +3,7 @@
 # There may be dependencies I've forgotten to mention!
 # Version numbers may change as well!
 
-VERSION=0.7.0a2
+VERSION=0.7.0
 DISTRO=`lsb_release -sc`
 #DEBFULLNAME="Ben Croston"
 #DEBEMAIL="ben@croston.org"
@@ -13,6 +13,8 @@ set -e
 
 # install debian package build dependencies
 # sudo apt-get install devscripts build-essential fakeroot dh-make python-dev python3-dev python-setuptools python3-setuptools
+#  or for Buster try:
+# sudo apt install debhelper dh-python python-all python-all-dev python3-all python3-all-dev python3-setuptools
 
 python setup.py sdist
 rm -rf ~/build_rpi.gpio
@@ -24,7 +26,7 @@ cp -a $SCRIPTPATH/debian_$DISTRO ~/build_rpi.gpio/RPi.GPIO-$VERSION/debian
 
 # build .deb files
 cd ~/build_rpi.gpio/RPi.GPIO-$VERSION
-debuild -us -uc
+dpkg-buildpackage -us -uc
 #debuild clean
 
 cp ~/build_rpi.gpio/python*deb $SCRIPTPATH/dist

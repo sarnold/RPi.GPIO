@@ -1,0 +1,17 @@
+#!/usr/bin/make -f
+# See debhelper(7) (uncomment to enable)
+# output every command that modifies files on the build system.
+
+#DH_VERBOSE = 1
+export PYBUILD_NAME=rpi.gpio
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+DEB_CFLAGS_MAINT_APPEND += $(shell getconf LFS_CFLAGS)
+DEB_LDFLAGS_MAINT_APPEND += $(shell getconf LFS_LDFLAGS)
+DEB_LDFLAGS_MAINT_APPEND += -Wl,--as-needed
+export DEB_CFLAGS_MAINT_APPEND DEB_LDFLAGS_MAINT_APPEND
+
+include /usr/share/dpkg/default.mk
+
+%:
+	dh $@ --with python2,python3 --buildsystem=pybuild

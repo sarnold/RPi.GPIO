@@ -1,0 +1,22 @@
+Source: rpi.gpio
+Section: python
+Priority: optional
+Maintainer: Ben Croston <ben@croston.org>
+Build-Depends: debhelper (>= 11~), dh-python, python-all (>=2.6.6-3), python-all-dev, python-setuptools (>=0.6b3), python3-all, python3-all-dev, python3-setuptools
+Standards-Version: 4.3.1
+Homepage: http://sourceforge.net/projects/raspberry-gpio-python/
+
+Package: python-rpi.gpio
+Architecture: armhf
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}
+Description: Python GPIO module for Raspberry Pi
+ This is the RPi.GPIO Python 2 module, for supporting GPIO on a
+ Raspberry Pi
+
+Package: python3-rpi.gpio
+Architecture: armhf
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python3:Depends}
+Description: Python 3 GPIO module for Raspberry Pi
+ This is the RPi.GPIO Python 3 module, for supporting GPIO on a
+ Raspberry Pi
+
