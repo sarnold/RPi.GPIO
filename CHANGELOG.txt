@@ -1,9 +1,10 @@
 Change Log
 ==========
 
-0.7.0a1
+0.7.0a2
 -------
 - Updated RPI_INFO to include RPi 4B
+- Fixed pull up/down for Pi4
 
 0.6.6a3
 -------

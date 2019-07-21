@@ -22,4 +22,4 @@ SOFTWARE.
 
 from RPi._GPIO import *
 
-VERSION = '0.7.0a1'
+VERSION = '0.7.0a2'
