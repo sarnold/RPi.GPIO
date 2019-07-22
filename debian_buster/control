@@ -8,14 +8,14 @@ Homepage: http://sourceforge.net/projects/raspberry-gpio-python/
 
 Package: python-rpi.gpio
 Architecture: armhf
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, raspberrypi-sys-mods
 Description: Python GPIO module for Raspberry Pi
  This is the RPi.GPIO Python 2 module, for supporting GPIO on a
  Raspberry Pi
 
 Package: python3-rpi.gpio
 Architecture: armhf
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python3:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python3:Depends}, raspberrypi-sys-mods
 Description: Python 3 GPIO module for Raspberry Pi
  This is the RPi.GPIO Python 3 module, for supporting GPIO on a
  Raspberry Pi
