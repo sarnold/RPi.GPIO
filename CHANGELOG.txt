@@ -1,8 +1,14 @@
 Change Log
 ==========
 
-0.7.0
+0.7.1a1
 -------
+- Fix docstrings to not include licence
+- Remove Debian/Raspbian stretch packaging support
+- Use setuptools instead of distutils
+
+0.7.0
+-----
 - Updated RPI_INFO to include RPi 4B
 - Fixed pull up/down for Pi4 (issue 168)
 - Fix spelling mistake in docstrings

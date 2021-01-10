@@ -1,6 +1,0 @@
-rpi.gpio (0.7.0~stretch-1) unstable; urgency=low
-
-  * To match Python RPi.GPIO package 0.7.0
-
- -- Ben Croston <ben@croston.org>  Sun, 21 Jul 2019 14:48:16 +0100
-

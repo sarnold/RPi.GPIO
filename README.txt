@@ -1,4 +1,4 @@
-This package provides a class to control the GPIO on a Raspberry Pi.
+This package provides a Python module to control the GPIO on a Raspberry Pi.
 
 Note that this module is unsuitable for real-time or timing critical applications.  This is because you
 can not predict when Python will be busy garbage collecting.  It also runs under the Linux kernel which
