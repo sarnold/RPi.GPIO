@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013-2016 Ben Croston
+Copyright (c) 2013-2021 Ben Croston
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -25,6 +25,24 @@ SOFTWARE.
 #include "common.h"
 #include "c_gpio.h"
 #include "event_gpio.h"
+
+PyObject *high;
+PyObject *low;
+PyObject *input;
+PyObject *output;
+PyObject *pwm;
+PyObject *serial;
+PyObject *i2c;
+PyObject *spi;
+PyObject *unknown;
+PyObject *board;
+PyObject *bcm;
+PyObject *pud_off;
+PyObject *pud_up;
+PyObject *pud_down;
+PyObject *rising_edge;
+PyObject *falling_edge;
+PyObject *both_edge;
 
 void define_constants(PyObject *module)
 {

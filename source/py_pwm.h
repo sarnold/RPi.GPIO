@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013 Ben Croston
+Copyright (c) 2013-2021 Ben Croston
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -20,5 +20,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-PyTypeObject PWMType;
+extern PyTypeObject PWMType;
+
 PyTypeObject *PWM_init_PWMType(void);

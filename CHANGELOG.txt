@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+0.7.1a2
+-------
+Fix build using GCC 10 (issue 187)
+
 0.7.1a1
 -------
 - Fix docstrings to not include licence

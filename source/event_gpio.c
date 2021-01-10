@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013-2018 Ben Croston
+Copyright (c) 2013-2021 Ben Croston
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -57,7 +57,6 @@ struct callback
 };
 struct callback *callbacks = NULL;
 
-pthread_t threads;
 int event_occurred[54] = { 0 };
 int thread_running = 0;
 int epfd_thread = -1;
