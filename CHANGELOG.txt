@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+0.7.1a3
+-------
+Fix PyEval_InitThreads deprecation warning for Python 3.9 (issue 188)
+
 0.7.1a2
 -------
 Fix build using GCC 10 (issue 187)
